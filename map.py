@@ -1,5 +1,6 @@
 import pygame
 from player import player
+from fireball import fireball
 pygame.init()
 pygame.display.set_caption("top down game")
 screen = pygame.display.set_mode((1000, 800))
@@ -10,10 +11,12 @@ LEFT = 0
 RIGHT = 1
 UP = 2
 DOWN = 3
-
+SPACE = 4
+W = 5
 p1 = player()
+ball = fireball()
 
-keys = [False, False, False,False]
+keys = [False, False, False,False,False]
 
 map = [[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
        [2,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2],
@@ -50,7 +53,8 @@ while not gameover:#GAMELOOP####################################################
                 keys[UP] = True
             elif event.key == pygame.K_DOWN:
                 keys[DOWN] = True
-
+            if event.key == pygame.K_SPACE:
+                 keys[SPACE] = True
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_LEFT:
                 keys[LEFT] = False
@@ -60,9 +64,15 @@ while not gameover:#GAMELOOP####################################################
                 keys[UP] = False
             elif event.key == pygame.K_DOWN:
                 keys[DOWN] = False
-
+            if event.key == pygame.K_SPACE:
+                 keys[SPACE] = False
     #PHYSICS--------------------------------------------------------------------------------------------------------------------------------
     p1.move(keys, map)
+    if ball.isAlive == True:
+        ball.move()
+    if keys[SPACE] == True:
+            ball.shoot(p1.xpos, p1.ypos, p1.direction)
+            
     #RENDER---------------------------------------------------------------------------------------------------------------------------------
 
     screen.fill((0,0,0))
@@ -75,6 +85,9 @@ while not gameover:#GAMELOOP####################################################
                     screen.blit(brick, (j * 50, i * 50), (0, 0, 50, 50))
 
     p1.draw(screen)
+
+    if ball.isAlive == True:
+        ball.draw(screen)
 
     pygame.display.flip()
 
