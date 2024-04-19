@@ -5,8 +5,9 @@ RIGHT = 0
 LEFT = 1
 UP = 2
 DOWN = 3
-
 ticker = 0
+py = 0
+px = 0
 
 class enemy:
     def __init__(self):
@@ -69,6 +70,7 @@ class enemy:
             self.xpos += 3
         if self.direction == DOWN:
             self.xpos -= 3
+        e1.move(map, ticker, p1.xpos, p1.ypos)
 
 
     def draw(self,screen):
