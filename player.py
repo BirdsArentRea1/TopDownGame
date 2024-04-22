@@ -27,7 +27,7 @@ class player:
         
 
     def draw(self,screen):
-        #pygame.draw.rect(screen, (255, 0, 255), (self.xpos, self.ypos, 30, 30))
+        pygame.draw.rect(screen, (0, 0, 255), (self.xpos, self.ypos, 30, 30))
 
         screen.blit(wizard, (self.xpos, self.ypos), (self.frameWidth, self.RowNum*self.frameHeight, self.frameWidth, self.frameHeight)) 
     def move(self, keys, map):
@@ -49,12 +49,12 @@ class player:
             self.vx = 0
 
         if keys[UP] == True:
-            self.vy = -3
+            self.vy = 3
             self.RowNum = 3
             self.direction = UP
             print("up")
         elif keys[DOWN] == True:
-            self.vy = 3
+            self.vy = -3
             self.RowNum = 2
             self.direction = DOWN
             print("down")
