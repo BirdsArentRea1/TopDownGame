@@ -118,7 +118,7 @@ while not gameover:#GAMELOOP####################################################
             if event.key == pygame.K_q:
                 quitGame = False
     #PHYSICS--------------------------------------------------------------------------------------------------------------------------------
-    print(mousePos)
+    #print(mousePos)
     e1.move(map, ticker, p1.xpos, p1.ypos)
     p1.move(keys, map)
     if ball.isAlive == True:
