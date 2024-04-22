@@ -5,17 +5,15 @@ RIGHT = 0
 LEFT = 1
 UP = 2
 DOWN = 3
-ticker = 0
-py = 0
-px = 0
+
 
 class enemy:
     def __init__(self):
-        self.xpos = 400
+        self.xpos = 500
         self.ypos = 200
         self.direction = RIGHT
 #wander
-    def move(self):
+    def move(self,map,ticker,px,py):
         if ticker % 40 == 0:
             num = random.randrange(0,4)
             if num == 0:
@@ -70,7 +68,7 @@ class enemy:
             self.xpos += 3
         if self.direction == DOWN:
             self.xpos -= 3
-        e1.move(map, ticker, p1.xpos, p1.ypos)
+        
 
 
     def draw(self,screen):
