@@ -28,17 +28,17 @@ class enemy:
 #check for player
         if abs(int(py/50) - int(self.ypos/50))<2:
             if px < self.xpos:
-                self.xpos-=5
+                self.xpos-=1
                 self.direction = LEFT
             else:
-                self.xpos+=5
+                self.xpos+=1
                 self.direction = RIGHT
         if abs(int(px/50) - int(self.xpos/50))<2:
             if py < self.ypos:
-                self.ypos-=5
+                self.ypos-=1
                 self.direction = LEFT
             else:
-                self.ypos+=5
+                self.ypos+=1
                 self.direction = RIGHT
 
 #wall collision
@@ -61,13 +61,13 @@ class enemy:
 
 #move
         if self.direction == RIGHT:
-            self.xpos += 3
+            self.xpos += 1
         if self.direction == LEFT:
-            self.xpos -= 3
+            self.xpos -= 1
         if self.direction == UP:
-            self.xpos += 3
+            self.xpos += 1
         if self.direction == DOWN:
-            self.xpos -= 3
+            self.xpos -= 1
         
 
 
