@@ -29,9 +29,9 @@ class fireball:
         elif self.direction == LEFT:
             self.xpos-=20
         if self.direction == DOWN:
-            self.ypos+=20
-        elif self.direction == UP:
             self.ypos-=20
+        elif self.direction == UP:
+            self.ypos+=20
 
     def draw(self, screen):
         pygame.draw.circle(screen, (250, 0, 0), (self.xpos, self.ypos), 10)
