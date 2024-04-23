@@ -1,5 +1,6 @@
 import pygame
 import random
+import math
 
 RIGHT = 0
 LEFT = 1
@@ -11,7 +12,9 @@ class enemy:
     def __init__(self):
         self.xpos = 500
         self.ypos = 200
+        self.isAlive = True
         self.direction = RIGHT
+
 #wander
     def move(self,map,ticker,px,py):
         if ticker % 40 == 0:
@@ -59,15 +62,20 @@ class enemy:
             self.direction = RIGHT
             self.xpos += 6
 
+#die
+    def die(self, ballx, bally):
+        if math.sqrt((self.xpos-ballx)**2+ (self.ypos-bally)**2) <= 20:
+            self.isAlive = False
+
 #move
-        if self.direction == RIGHT:
-            self.xpos += 1
-        if self.direction == LEFT:
-            self.xpos -= 1
-        if self.direction == UP:
-            self.xpos += 1
-        if self.direction == DOWN:
-            self.xpos -= 1
+            if self.direction == RIGHT:
+                self.xpos += 1
+            if self.direction == LEFT:
+                self.xpos -= 1
+            if self.direction == UP:
+                self.xpos += 1
+            if self.direction == DOWN:
+                self.xpos -= 1
         
 
 
