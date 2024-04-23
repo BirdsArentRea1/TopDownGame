@@ -50,6 +50,8 @@ ball = fireball()
 
 keys = [False, False, False,False,False]
 
+mapNum = 1
+
 map = [[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
        [2,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2],
        [2,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2],
@@ -58,13 +60,30 @@ map = [[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
        [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2], 
        [2,1,2,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,2],
        [2,1,2,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,2],
-       [2,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
+       [2,1,2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,5],
        [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
        [2,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2],
        [2,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2],
        [2,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2],
        [2,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2],
        [2,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2],
+       [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]]
+
+map2 = [[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+       [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
+       [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
+       [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
+       [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
+       [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2], 
+       [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
+       [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
+       [5,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
+       [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
+       [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
+       [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
+       [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
+       [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
+       [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
        [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]]
 
 brick = pygame.image.load('piskelstonebricks.png')
@@ -110,7 +129,7 @@ while not gameover:#GAMELOOP####################################################
         if event.type == pygame.MOUSEBUTTONUP:
             mouseDown = False
         
-        #keyboard input (more needed for actual game)
+        #keyboard input
         if event.type == pygame.KEYDOWN: 
             if event.key == pygame.K_q:
                 quitGame = True
@@ -119,8 +138,20 @@ while not gameover:#GAMELOOP####################################################
                 quitGame = False
     #PHYSICS--------------------------------------------------------------------------------------------------------------------------------
     #print(mousePos)
-    e1.move(map, ticker, p1.xpos, p1.ypos)
-    p1.move(keys, map)
+    if mapNum == 1:
+        p1.move(keys, map)
+    elif mapNum == 2:
+        p1.move(keys, map2)
+    if mapNum == 1:
+        e1.move(map, ticker, p1.xpos, p1.ypos)
+        e1.die(ball.xpos, ball.ypos)
+    #move between maps
+    if map[int((p1.ypos)/50)][int((p1.xpos)/50)] == 5:
+        mapNum = 2
+        p1.xpos = 50
+    if map2[int((p1.ypos)/50)][int((p1.xpos)/50)] == 5:
+        mapNum = 1
+        p1.xpos = 50
     if ball.isAlive == True:
         ball.move()
     if keys[SPACE] == True:
@@ -183,13 +214,27 @@ while not gameover:#GAMELOOP####################################################
     
     #game state-------------------------------
     if state == 2:
-        screen.fill((80,150,100))# Clear the screen green
-        for i in range(len(map)):
-            for j in range(len(map[i])):
-                if map[i][j] == 1:
-                   screen.blit(floor, (j * 50, i * 50), (0, 0, 50, 50))
-                if map[i][j] == 2:
-                    screen.blit(brick, (j * 50, i * 50), (0, 0, 50, 50))
+        if mapNum == 1:
+            screen.fill((80,150,100))# Clear the screen green
+            for i in range(len(map)):
+                for j in range(len(map[i])):
+                    if map[i][j] == 1:
+                        screen.blit(floor, (j * 50, i * 50), (0, 0, 50, 50))
+                    if map[i][j] == 2:
+                        screen.blit(brick, (j * 50, i * 50), (0, 0, 50, 50))
+                    if map[i][j] == 5:
+                        pygame.draw.rect(screen, (0,0,0), (j*50, i*50, 50, 50))
+
+        elif mapNum == 2:
+            screen.fill((80,150,100))
+            for i in range(len(map2)):
+                for j in range(len(map2[i])):
+                    if map2[i][j] == 1:
+                        screen.blit(floor, (j * 50, i * 50), (0, 0, 50, 50))
+                    if map2[i][j] == 2:
+                        screen.blit(brick, (j * 50, i * 50), (0, 0, 50, 50))
+                    if map2[i][j] == 5:
+                        pygame.draw.rect(screen, (0,0,0), (j*50, i*50, 50, 50))
                 
         p1.draw(screen)
         e1.draw(screen)
