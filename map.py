@@ -143,15 +143,16 @@ while not gameover:#GAMELOOP####################################################
     elif mapNum == 2:
         p1.move(keys, map2)
     if mapNum == 1:
-        e1.move(map, ticker, p1.xpos, p1.ypos)
-        e1.die(ball.xpos, ball.ypos)
+        if e1.isAlive == True:
+            e1.move(map, ticker, p1.xpos, p1.ypos)
+            e1.die(ball.xpos, ball.ypos)
     #move between maps
     if map[int((p1.ypos)/50)][int((p1.xpos)/50)] == 5:
         mapNum = 2
         p1.xpos = 50
     if map2[int((p1.ypos)/50)][int((p1.xpos)/50)] == 5:
         mapNum = 1
-        p1.xpos = 50
+        p1.xpos = 930
     if ball.isAlive == True:
         ball.move()
     if keys[SPACE] == True:
