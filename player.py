@@ -27,7 +27,7 @@ class player:
         
 
     def draw(self,screen):
-        #pygame.draw.rect(screen, (0, 0, 255), (self.xpos, self.ypos, 30, 30))
+        pygame.draw.rect(screen, (255, 0, 255), (self.xpos, self.ypos, 30, 30))
         screen.blit(wizard, (self.xpos, self.ypos), (0,self.RowNum*self.frameHeight,100,100))
         #screen.blit(wizard, (self.xpos, self.ypos), (self.frameWidth, self.RowNum*self.frameHeight, self.frameWidth, self.frameHeight)) 
 
@@ -75,6 +75,7 @@ class player:
 
         if map[int((self.ypos+ 30 + 5) / 50 )][int((self.xpos ) / 50)] == 2:
             self.ypos-=3
+ 
  
         #update posistion
         self.xpos+=self.vx
