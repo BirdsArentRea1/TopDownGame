@@ -62,22 +62,26 @@ class enemy:
             self.direction = RIGHT
             self.xpos += 6
 
+#move  
+        if self.direction == RIGHT:
+                self.xpos += 1
+                print("enemy move")
+        if self.direction == LEFT:
+            self.xpos -= 1
+            print("enemy move")
+        if self.direction == UP:
+            self.xpos += 1
+            print("enemy move")
+        if self.direction == DOWN:
+            self.xpos -= 1
+            print("enemy move")
+
 #die
     def die(self, ballx, bally):
-        if math.sqrt((self.xpos-ballx)**2+ (self.ypos-bally)**2) <= 20:
+        if math.sqrt((self.xpos-ballx)**2 + (self.ypos-bally)**2) <= 20:
+            print("collision")
             self.isAlive = False
 
-#move
-            if self.direction == RIGHT:
-                self.xpos += 1
-            if self.direction == LEFT:
-                self.xpos -= 1
-            if self.direction == UP:
-                self.xpos += 1
-            if self.direction == DOWN:
-                self.xpos -= 1
-        
-
-
     def draw(self,screen):
-        pygame.draw.rect(screen, (255, 0, 0), (self.xpos, self.ypos, 30, 30))
+        if self.isAlive == True:
+            pygame.draw.rect(screen, (255, 0, 0), (self.xpos, self.ypos, 30, 30))
