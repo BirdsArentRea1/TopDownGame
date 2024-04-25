@@ -28,7 +28,7 @@ green = (0, 255, 0)
 blue = (0, 0, 128)
 
 #game state variable
-state = 1 #1 is menu, 2 is playing, 3 is credits
+state = 1 #1 is menu, 2 is playing, 3 is credits, 4 is quit, 5 is death screen
 button1 = False
 button2 = False
 button3 = False
@@ -136,6 +136,7 @@ while not gameover:#GAMELOOP####################################################
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_q:
                 quitGame = False
+
     #PHYSICS--------------------------------------------------------------------------------------------------------------------------------
     #print(mousePos)
     if mapNum == 1:
@@ -146,6 +147,10 @@ while not gameover:#GAMELOOP####################################################
         if e1.isAlive == True:
             e1.move(map, ticker, p1.xpos, p1.ypos)
             e1.die(ball.xpos, ball.ypos)
+            p1.ouch(e1.xpos, e1.ypos)
+    
+    if p1.health <= 0:
+        state = 5
     #move between maps
     if map[int((p1.ypos)/50)][int((p1.xpos)/50)] == 5:
         mapNum = 2
@@ -212,7 +217,8 @@ while not gameover:#GAMELOOP####################################################
             pygame.draw.rect(screen, (100, 230, 100), (700, 400, 200, 150))
         else:
             pygame.draw.rect(screen, (200, 250, 200), (700, 400, 200, 150))
-    
+
+       
     #game state-------------------------------
     if state == 2:
         if mapNum == 1:
@@ -242,11 +248,19 @@ while not gameover:#GAMELOOP####################################################
         if ball.isAlive == True:
             ball.draw(screen)
         
+         #health bar
+        pygame.draw.rect(screen, (255, 255, 255), (750, 5, 200, 30))
+        pygame.draw.rect(screen, (150, 0, 0), (750, 5, p1.health, 30))
+        pygame.draw.rect(screen, (0,0,0), (750, 5, 200, 30), 3)
+    
     #if state == 3:
         #screen.fill((64,224,208))# clear the screen turquoise
         
     #if state == 4:
         #screen.fill((139,0,0))#clear the screen darkred
+
+    if state == 5:
+        screen.fill((250,0,0))
 
     pygame.display.flip()
 
