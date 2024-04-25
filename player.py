@@ -1,4 +1,5 @@
 import pygame
+import math
 
 LEFT = 0
 RIGHT = 1
@@ -13,6 +14,7 @@ wizard.set_colorkey((255, 0, 255))
 class player:
     def __init__(self):
 
+        self.health = 200
         self.xpos = 400
         self.ypos = 415
         self.vx = 0
@@ -24,7 +26,13 @@ class player:
         self.RowNum = 2 
         self.frameNum = 0
         self.ticker = 0
-        
+
+#player take damage/die
+    def ouch(self, enemyx, enemyy):
+        if math.sqrt((self.xpos-enemyx)**2 + (self.ypos-enemyy)**2) <= 20:
+            self.health -= 1
+            print(self.health)
+            
 
     def draw(self,screen):
         pygame.draw.rect(screen, (255, 0, 255), (self.xpos, self.ypos, 30, 30))
@@ -39,12 +47,12 @@ class player:
             self.vx = -3
             self.RowNum = 0
             self.direction = LEFT
-            print("left")
+            #print("left")
         elif keys[RIGHT] == True:
             self.vx = 3
             self.RowNum = 1
             self.direction = RIGHT
-            print("right")
+            #print("right")
         
 
         else:
@@ -54,12 +62,12 @@ class player:
             self.vy = 3
             self.RowNum = 2
             self.direction = UP
-            print("up")
+            #print("up")
         elif keys[DOWN] == True:
             self.vy = -3
             self.RowNum = 3
             self.direction = DOWN
-            print("down")
+            #print("down")
         else:
             self.vy = 0
 
