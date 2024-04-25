@@ -46,41 +46,37 @@ class enemy:
 
 #wall collision
         if self.direction == RIGHT and map[int((self.ypos ) /50)][int ( (self.xpos + 20) /50 )] ==2:
-            print("collision right")
+            #print("collision right")
             self.direction = UP
             self.xpos -= 6
         if self.direction == LEFT and map[int((self.ypos ) /50)][int ( (self.xpos - 20) /50 )] ==2:
-            print("collision left")
+            #print("collision left")
             self.direction = DOWN
             self.xpos += 6
         if self.direction == UP and map[int((self.ypos ) /50)][int ( (self.xpos + 20) /50 )] ==2:
-            print("collision up")
+            #print("collision up")
             self.direction = LEFT
             self.xpos += 6
         if self.direction == DOWN and map[int((self.ypos ) /50)][int ( (self.xpos - 20) /50 )] ==2:
-            print("collision down")
+            #print("collision down")
             self.direction = RIGHT
             self.xpos += 6
 
 #move  
         if self.direction == RIGHT:
                 self.xpos += 1
-                print("enemy move")
         if self.direction == LEFT:
             self.xpos -= 1
-            print("enemy move")
         if self.direction == UP:
             self.xpos += 1
-            print("enemy move")
         if self.direction == DOWN:
             self.xpos -= 1
-            print("enemy move")
 
 #die
     def die(self, ballx, bally):
         if math.sqrt((self.xpos-ballx)**2 + (self.ypos-bally)**2) <= 20:
-            print("collision")
             self.isAlive = False
+            print("enemy killed")
 
     def draw(self,screen):
         if self.isAlive == True:
