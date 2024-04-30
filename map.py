@@ -8,21 +8,20 @@ screen = pygame.display.set_mode((1000, 800))
 clock = pygame.time.Clock()
 gameover = False
 #☻
+die = pygame.mixer.Sound('LegoYodaDeath.mp3')
+boom = pygame.mixer.Sound('VineBoom.mp3')
+warp = pygame.mixer.Sound("smb_pipe.wav")
 
-# player variables
-xpos= 500 #xpos of player
-ypos = 200 #ypos of player
-vx = 0 #x velocity of player
-keys = [False, False, False, False] #this list holds whether each key has been pressed
+xpos= 500 
+ypos = 200 
+vx = 0 
+keys = [False, False, False, False] 
 
-#mouse input
 xpos = 0
 ypos = 0
 mousePos = (xpos, ypos)
 mouseDown = False
 
-# define the RGB value for white,
-#  green, blue colour .
 white = (255, 255, 255)
 green = (0, 255, 0)
 blue = (0, 0, 128)
@@ -32,7 +31,6 @@ state = 1 #1 is menu, 2 is playing, 3 is credits, 4 is quit, 5 is death screen
 button1 = False
 button2 = False
 button3 = False
-#add more buttons here!
 quitGame = False
 
 #CONSTANTS
@@ -167,6 +165,9 @@ while not gameover:#GAMELOOP####################################################
             e1.move(map, ticker, p1.xpos, p1.ypos)
             e1.die(ball.xpos, ball.ypos)
             p1.ouch(e1.xpos, e1.ypos)
+
+    #if e1.die == True:
+        #pygame.mixer.Sound.play(boom)
     
     if p1.health <= 0:
         state = 5
@@ -174,10 +175,12 @@ while not gameover:#GAMELOOP####################################################
     if mapNum == 1:
         if map[int((p1.ypos)/50)][int((p1.xpos)/50)] == 5:
             mapNum = 2
+            pygame.mixer.Sound.play(warp)
             p1.xpos = 50
     if mapNum == 2:
         if map2[int((p1.ypos)/50)][int((p1.xpos)/50)] == 5:
             mapNum = 1
+            pygame.mixer.Sound.play(warp)
             p1.xpos = 930
 
 
@@ -185,10 +188,12 @@ while not gameover:#GAMELOOP####################################################
     if mapNum == 2:
         if map2[int((p1.ypos)/50)][int((p1.xpos)/50)] == 6:
             mapNum = 3
+            pygame.mixer.Sound.play(warp)
             p1.xpos = 50
     if mapNum == 3:
         if map3[int((p1.ypos)/50)][int((p1.xpos)/50)] == 6:
             mapNum = 1
+            pygame.mixer.Sound.play(warp)
             p1.xpos = 930
     if ball.isAlive == True:
         ball.move()
@@ -308,6 +313,7 @@ while not gameover:#GAMELOOP####################################################
 
     if state == 5:
         screen.fill((250,0,0))
+        pygame.mixer.Sound.play(die)
 
     pygame.display.flip()
 
