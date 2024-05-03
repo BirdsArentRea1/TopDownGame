@@ -1,16 +1,19 @@
 import pygame
-from player import player
-from fireball import fireball
-from enemy import enemy
+from player2 import player
+from fireball2 import fireball
+from enemy2 import enemy
 pygame.init()
 pygame.display.set_caption("top down game")
 screen = pygame.display.set_mode((1000, 800))
 clock = pygame.time.Clock()
 gameover = False
 #☻
-die = pygame.mixer.Sound('LegoYodaDeath.mp3')
-boom = pygame.mixer.Sound('VineBoom.mp3')
-warp = pygame.mixer.Sound("smb_pipe.wav")
+
+font = pygame.font.Font('freesansbold.ttf', 32)
+
+die = pygame.mixer.Sound('mp3/LegoYodaDeath.mp3')
+boom = pygame.mixer.Sound('mp3/VineBoom.mp3')
+warp = pygame.mixer.Sound("mp3/smb_pipe.wav")
 
 xpos= 500 
 ypos = 200 
@@ -25,6 +28,12 @@ mouseDown = False
 white = (255, 255, 255)
 green = (0, 255, 0)
 blue = (0, 0, 128)
+green1 = (39, 154, 27)
+green2 = (54, 178, 41)
+yellow1 = (250, 228, 39)
+yellow2 = (254, 241, 132)
+red1 = (213, 6, 6)
+red2 = (244, 45, 45)
 
 #game state variable
 state = 1 #1 is menu, 2 is playing, 3 is credits, 4 is quit, 5 is death screen
@@ -50,22 +59,22 @@ keys = [False, False, False,False,False]
 
 mapNum = 1
 
-map = [[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
-       [2,1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,2],
-       [2,1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,2],
-       [2,1,1,1,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,2],
-       [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
-       [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2], 
-       [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
-       [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
-       [2,1,1,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,5],
-       [2,1,1,2,2,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2],
-       [2,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2],
-       [2,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2],
-       [2,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2],
-       [2,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2],
-       [2,1,1,1,1,2,2,1,1,1,1,1,1,1,1,1,1,1,1,2],
-       [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]]
+map = [[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+       [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+       [2,2,2,2,3,2,2,2,3,2,2,2,2,2,3,2,2,2,2,1],
+       [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+       [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+       [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1], 
+       [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+       [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+       [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+       [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+       [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+       [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+       [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+       [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+       [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1],
+       [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1]]
 
 map2 = [[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
        [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
@@ -101,8 +110,12 @@ map3 = [[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
        [2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
        [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]]
 
-brick = pygame.image.load('piskelstonebricks.png')
-floor = pygame.image.load('piskelwoodplanks.png')
+brick = pygame.image.load('imgs/stonebrick1.png')
+window = pygame.image.load('imgs/stonebrickwindow.png')
+floor = pygame.image.load('imgs/piskelwoodplanks.png')
+text1 = font.render('Start',False,(0,0,0))
+text2 = font.render('Exit',False,(0,0,0))
+text3 = font.render('Credits',False,(0,0,0))
 
 while not gameover:#GAMELOOP############################################################################################################
     clock.tick(60)
@@ -153,7 +166,7 @@ while not gameover:#GAMELOOP####################################################
                 quitGame = False
 
     #PHYSICS--------------------------------------------------------------------------------------------------------------------------------
-    print(mousePos)
+    #print(mousePos)
     if mapNum == 1:
         p1.move(keys, map)
     elif mapNum == 2:
@@ -237,23 +250,29 @@ while not gameover:#GAMELOOP####################################################
     screen.fill((0,0,0))
 
     if state == 1:
-        screen.fill((230,100,100))# Clear the screen pink
-        #have more text here for buttons and whatnot
+        screen.fill((70,70,255))
+        
         if button1 == False:
-            pygame.draw.rect(screen, (100, 230, 100), (100, 400, 200, 150)) #dark green            
+            pygame.draw.rect(screen, (green1), (100, 400, 200, 150))
+            screen.blit(text1, (160,450))
         else:
-            pygame.draw.rect(screen, (200, 250, 200), (100, 400, 200, 150))#light green
+            pygame.draw.rect(screen, (green2), (100, 400, 200, 150))
+            screen.blit(text1, (160,450))
             
         if button2 == False:
-            pygame.draw.rect(screen, (100, 230, 100), (400, 400, 200, 150))
+            pygame.draw.rect(screen, (yellow1), (400, 400, 200, 150))
+            screen.blit(text3, (440,450))
         else:
-            pygame.draw.rect(screen, (200, 250, 200), (400, 400, 200, 150))
-            
+            pygame.draw.rect(screen, (yellow2), (400, 400, 200, 150))
+            screen.blit(text3, (440,450))
+
         #repeat for third button
         if button3 == False:
-            pygame.draw.rect(screen, (100, 230, 100), (700, 400, 200, 150))
+            pygame.draw.rect(screen, (red1), (700, 400, 200, 150))
+            screen.blit(text2, (765,450))
         else:
-            pygame.draw.rect(screen, (200, 250, 200), (700, 400, 200, 150))
+            pygame.draw.rect(screen, (red2), (700, 400, 200, 150))
+            screen.blit(text2, (765,450))
 
        
     #game state-------------------------------
@@ -266,6 +285,8 @@ while not gameover:#GAMELOOP####################################################
                         screen.blit(floor, (j * 50, i * 50), (0, 0, 50, 50))
                     if map[i][j] == 2:
                         screen.blit(brick, (j * 50, i * 50), (0, 0, 50, 50))
+                    if map[i][j] == 3:
+                        screen.blit(window, (j * 50, i * 50), (0, 0, 50, 50))
                     if map[i][j] == 5:
                         pygame.draw.rect(screen, (0,0,0), (j*50, i*50, 50, 50))
 
@@ -277,6 +298,8 @@ while not gameover:#GAMELOOP####################################################
                         screen.blit(floor, (j * 50, i * 50), (0, 0, 50, 50))
                     if map2[i][j] == 2:
                         screen.blit(brick, (j * 50, i * 50), (0, 0, 50, 50))
+                    if map[i][j] == 3:
+                        screen.blit(window, (j * 50, i * 50), (0, 0, 50, 50))
                     if map2[i][j] == 5:
                         pygame.draw.rect(screen, (0,0,0), (j*50, i*50, 50, 50))
                     if map2[i][j] == 6:
@@ -290,6 +313,8 @@ while not gameover:#GAMELOOP####################################################
                         screen.blit(floor, (j * 50, i * 50), (0, 0, 50, 50))
                     if map3[i][j] == 2:
                         screen.blit(brick, (j * 50, i * 50), (0, 0, 50, 50))
+                    if map[i][j] == 3:
+                        screen.blit(window, (j * 50, i * 50), (0, 0, 50, 50))
                     if map3[i][j] == 5:
                         pygame.draw.rect(screen, (0,0,0), (j*50, i*50, 50, 50))
                     if map3[i][j] == 6:
